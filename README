@@ -1,0 +1,2 @@
+DEPENDENCIES
+	`stb_image` is required to compile.
