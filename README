@@ -1,10 +1,13 @@
 PLAN
-  * Convert to grayscale
-  
-  + Divide into blocks
-  + Calculate brightness
-  + Map ASCII
-  + Assemble
+	* Convert to grayscale
+
+	+ Divide into blocks
+	+ Calculate brightness
+	+ Map ASCII
+	+ Assemble
+
+COMPILE
+	Simply run `make`
 
 DEPENDENCIES
 	`stb_image` is a simple image processing library.
