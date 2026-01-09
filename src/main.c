@@ -17,11 +17,11 @@ int main(int argc, char **argv)
 	unsigned char * data = NULL;
 	int exit_status = 0;
 
-	if (argc < 3) {
+	if (argc < 2) {
 		fprintf(stderr, "No image file provided\n");
 		exit_status = 1;
 		goto cleanup;
-	} else if (argc < 2) {
+	} else if (argc < 3) {
 		fprintf(stderr, "No output file name provided");
 		exit_status = 1;
 		goto cleanup;
