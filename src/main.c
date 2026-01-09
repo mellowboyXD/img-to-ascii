@@ -35,8 +35,7 @@ int main(int argc, char **argv)
 	int channels = 0;
 	data = stbi_load(infile, &width, &height, &channels, 0);
 	if (data == NULL) {
-		const char *errmsg = stbi_failure_reason();
-		fprintf(stderr, "%s\n", errmsg);
+		fprintf(stderr, "%s\n", stbi_failure_reason());
 		exit_status = 1;
 		goto cleanup;
 	}
