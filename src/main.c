@@ -13,12 +13,18 @@
 
 int main(int argc, char **argv)
 {
+	unsigned char *buf = NULL;
+	unsigned char * data = NULL;
+	int exit_status = 0;
+
 	if (argc < 3) {
 		fprintf(stderr, "No image file provided\n");
-		exit(EXIT_FAILURE);
+		exit_status = 1;
+		goto cleanup;
 	} else if (argc < 2) {
 		fprintf(stderr, "No output file name provided");
-		exit(EXIT_FAILURE);
+		exit_status = 1;
+		goto cleanup;
 	}
 
 	const char *infile = argv[1];
@@ -27,19 +33,20 @@ int main(int argc, char **argv)
 	int width = 0;
 	int height = 0;
 	int channels = 0;
-	unsigned char *data = stbi_load(infile, &width, &height, &channels, 0);
+	data = stbi_load(infile, &width, &height, &channels, 0);
 	if (data == NULL) {
 		const char *errmsg = stbi_failure_reason();
 		fprintf(stderr, "%s\n", errmsg);
-		exit(EXIT_FAILURE);
+		exit_status = 1;
+		goto cleanup;
 	}
 
 	// returns a row-major 1d array
-	unsigned char *buf = (unsigned char *)malloc(width * height * 1);
+	buf = (unsigned char *)malloc(width * height * 1);
 	if (buf == NULL) {
 		fprintf(stderr, "Enable to allocate memory.\n");
-		stbi_image_free(data);
-		exit(EXIT_FAILURE);
+		exit_status = 1;
+		goto cleanup;
 	}
 
 	for (int i = 0; i < height * width; ++i) {
@@ -53,11 +60,12 @@ int main(int argc, char **argv)
 
 	if (stbi_write_png(outfile, width, height, 1, buf, 0) == 0) {
 		fprintf(stderr, "Error creating: %s\n", outfile);
-		stbi_image_free(data);
-		free(buf);
-		exit(EXIT_FAILURE);
+		exit_status = 1;
+		goto cleanup;
 	}
 
+cleanup:
 	stbi_image_free(data);
 	free(buf);
+	return exit_status;
 }
