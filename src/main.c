@@ -34,6 +34,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
+	// returns a row-major 1d array
 	unsigned char *buf = (unsigned char *)malloc(width * height * 1);
 	if (buf == NULL) {
 		fprintf(stderr, "Enable to allocate memory.\n");
