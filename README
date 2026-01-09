@@ -1,2 +1,10 @@
+PLAN
+  * Convert to grayscale
+  
+  + Divide into blocks
+  + Calculate brightness
+  + Map ASCII
+  + Assemble
+
 DEPENDENCIES
-	`stb_image` is required to compile.
+	`stb_image` is a simple image processing library.
