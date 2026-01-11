@@ -20,3 +20,7 @@ COMPILE
 
 DEPENDENCIES
 	`stb_image` is a simple image processing library.
+
+REFERENCES
+	`pixcii` - https://github.com/ashish0kumar/pixcii/
+	`img2ascii` - https://github.com/JosefVesely/img2ascii/
