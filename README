@@ -1,13 +1,22 @@
 PLAN
 	* Convert to grayscale
+	* Calculate brightness
+	* Map ASCII
+	* Assemble
 
-	+ Divide into blocks
-	+ Calculate brightness
-	+ Map ASCII
-	+ Assemble
+	+ Parse cmd arguments and add more features like custom size and output 
+	  file.
+
+	x Divide into blocks
+		- Scrapped this idea. Tried to calculate the average brightness 
+		  per block but ended up just loosing too much info about each 
+		  pixel.
+		- Instead, I resized the image to match the desired width using 
+		  the `stb_image_resize` library.
 
 COMPILE
-	Simply run `make`
+	Simply run `make`.
+	Run `./bin/img2ascii <image_file>.png`
 
 DEPENDENCIES
 	`stb_image` is a simple image processing library.
