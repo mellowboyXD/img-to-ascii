@@ -1,6 +1,4 @@
-#include <math.h>
 #include <stdio.h>
-#include <string.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_FAILURE_USERMSG
@@ -12,39 +10,49 @@
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
 #include <stb_image_resize.h>
 
-char map_brightness_to_char(int brightness)
-{
-	//$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~<>i!lI;:,\"^`'.
-	const char *palette =
-		" .'`\",:;Il!i<>~+_-?[]{}1()|\\/tfjrxnuvczXYUJCLQ0OZmwpqdbkhao*#MWAG&8%B@$";
-	int n = strlen(palette);
+#include "ascii.h"
 
-	float b = pow(brightness, 0.95);
-	int j = (int)(b * (n - 1) / 255);
-	return palette[j];
-}
-
-unsigned char *get_grayscale(unsigned char *data, int width, int height,
-			     int channels)
+unsigned char *load_img(const char *path, int desired_width, int *height,
+			int *chan, char *errmsg)
 {
-	unsigned char *grayscale = (unsigned char *)(malloc(width * height));
-	if (grayscale == NULL)
+	unsigned char *img = NULL;
+
+	int w = 0;
+	int h = 0;
+	int channels = 0;
+
+	img = stbi_load(path, &w, &h, &channels, 0);
+	if (!img) {
+		errmsg = (char *)stbi_failure_reason();
 		return NULL;
-	for (int i = 0; i < height * width; ++i) {
-		int j = i * channels;
-		int r = data[j];
-		int g = data[j + 1];
-		int b = data[j + 2];
-
-		grayscale[i] = 0.299 * r + 0.587 * g + 0.114 * b;
 	}
-	return grayscale;
+	printf("image loaded\n");
+
+	if (desired_width < 0) {
+		errmsg = "negative width not valid";
+		return NULL;
+	} else if (desired_width > w) {
+		sprintf(errmsg, "width invalid: %d>%d", desired_width, w);
+		return NULL;
+	}
+
+	float desired_height = ((float)desired_width / (w * 2.0f)) * h;
+	stbir_resize_uint8(img, w, h, 0, img, desired_width, desired_height, 0,
+			   channels);
+
+	*height = desired_height;
+	*chan = channels;
+
+	printf("image resized\n");
+
+	return img;
 }
 
 int main(int argc, char **argv)
 {
-	unsigned char *grayscale = NULL;
+	char errmsg[1024] = "";
 	unsigned char *original = NULL;
+	unsigned char *grayscale = NULL;
 	int exit_status = 0;
 
 	if (argc < 2) {
@@ -55,34 +63,31 @@ int main(int argc, char **argv)
 
 	const char *infile = argv[1];
 
-	int iwidth = 0;
-	int iheight = 0;
+	int width = 80;
+	int height = 0;
 	int channels = 0;
-	original = stbi_load(infile, &iwidth, &iheight, &channels, 0);
+	original = load_img(infile, width, &height, &channels, errmsg);
 	if (!original) {
-		fprintf(stderr, "%s\n", stbi_failure_reason());
+		fprintf(stderr, "Error loading image: %s\n", errmsg);
 		exit_status = 1;
 		goto cleanup;
 	}
 
-	int desired_width = 80;
-	int desired_height = ((float)desired_width / iwidth) * iheight;
-	stbir_resize_uint8(original, iwidth, iheight, 0, original,
-			   desired_width, desired_height, 0, channels);
-
 	// returns a row-major 1d array
-	grayscale = get_grayscale(original, desired_width, desired_height,
-				  channels);
+	grayscale = get_grayscale(original, width, height, channels);
 	if (!grayscale) {
 		fprintf(stderr, "Enable to allocate memory.\n");
 		exit_status = 1;
 		goto cleanup;
 	}
 
-	for (int i = 0; i < desired_height * desired_width; ++i) {
+	printf("image grayscaled\n");
+	printf("w: %d h: %d channels: %d\n", width, height, channels);
+
+	for (int i = 0; i < width * height; ++i) {
 		char c = map_brightness_to_char(grayscale[i]);
 		printf("%c", c);
-		if (i % desired_width == 0)
+		if (i % width == 0)
 			printf("\n");
 	}
 	printf("\n");
