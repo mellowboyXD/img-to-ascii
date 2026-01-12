@@ -3,9 +3,16 @@ PLAN
 	* Calculate brightness
 	* Map ASCII
 	* Assemble
+	* Did some refactoring
+	* Fix aspect ratio bug
+		now rendered ascii is proportionately correct
 
 	+ Parse cmd arguments and add more features like custom size and output 
 	  file.
+
+	+ Refactor code
+
+	+ Parse video file to convert to ascii
 
 	x Divide into blocks
 		- Scrapped this idea. Tried to calculate the average brightness 
