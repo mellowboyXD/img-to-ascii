@@ -6,11 +6,10 @@ PLAN
 	* Did some refactoring
 	* Fix aspect ratio bug
 		now rendered ascii is proportionately correct
+	* Refactor
+	* Parse cmd options -w/--width to set output width
 
-	+ Parse cmd arguments and add more features like custom size and output 
-	  file.
-
-	+ Refactor code
+	+ Parse output file
 
 	+ Parse video file to convert to ascii
 
