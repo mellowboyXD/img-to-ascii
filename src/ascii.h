@@ -1,9 +1,10 @@
-#ifndef ASCII /* ascii */
+#ifndef ASCII /* ascii.h */
 #define ASCII
 
+#include <stdio.h>
+
 char map_brightness_to_char(int brightness);
+int img2ascii(const char *infile, int width, FILE *restrict stream,
+	      char *errmsg);
 
-unsigned char *get_grayscale(unsigned char *data, int width, int height,
-			     int channels);
-
-#endif /* ascii */
+#endif /* ascii.h */

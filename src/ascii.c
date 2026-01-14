@@ -1,8 +1,10 @@
-#include <math.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "ascii.h"
+
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "image.h"
 
 char map_brightness_to_char(int brightness)
 {
@@ -16,19 +18,37 @@ char map_brightness_to_char(int brightness)
 	return palette[j];
 }
 
-unsigned char *get_grayscale(unsigned char *data, int width, int height,
-			     int channels)
+int img2ascii(const char *infile, int width, FILE *restrict stream,
+	      char *errmsg)
 {
-	unsigned char *grayscale = (unsigned char *)(malloc(width * height));
-	if (grayscale == NULL)
-		return NULL;
-	for (int i = 0; i < height * width; ++i) {
-		int j = i * channels;
-		int r = data[j];
-		int g = data[j + 1];
-		int b = data[j + 2];
+	struct img *original = NULL;
+	struct img *grayscale = NULL;
+	int exit_status = 0;
 
-		grayscale[i] = 0.299 * r + 0.587 * g + 0.114 * b;
+	original = load_img(infile, width, errmsg);
+	if (!original) {
+		fprintf(stderr, "Error loading image: %s\n", errmsg);
+		exit_status = 1;
+		goto cleanup;
 	}
-	return grayscale;
+
+	grayscale = grayscale_img(original, errmsg);
+	if (!grayscale) {
+		fprintf(stderr, "Enable to allocate memory: %s\n", errmsg);
+		exit_status = 1;
+		goto cleanup;
+	}
+
+	for (int i = 0; i < grayscale->width * grayscale->height; ++i) {
+		char c = map_brightness_to_char(grayscale->data[i]);
+		fprintf(stream, "%c", c);
+		if (i % width == 0)
+			fprintf(stream, "\n");
+	}
+	fprintf(stream, "\n");
+
+cleanup:
+	close_img(original);
+	close_img(grayscale);
+	return exit_status;
 }
