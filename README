@@ -8,8 +8,8 @@ PLAN
 		now rendered ascii is proportionately correct
 	* Refactor
 	* Parse cmd options -w/--width to set output width
-	* Parse output file
-		now has option to output to file instead of stdout
+
+	+ Parse output file
 
 	+ Parse video file to convert to ascii
 
