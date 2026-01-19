@@ -10,8 +10,19 @@ PLAN
 	* Parse cmd options -w/--width to set output width
 	* Parse output file
 		now has option to output to file instead of stdout
+	* Parse video file to convert to ascii
+		- The process on extracting frames from an MPEG4 container is
+		  tedious and requires a lot of setup
+		- It definitely is something worth learning and makes you 
+		  appreciate a good media player like VLC
+		- Also a lot of credit has to go to the FFMPEG team and 
+		  contributors. Literally the whole internet relies on this open
+		  source project
+		- It takes a lot of time and hard work to create good software
 
-	+ Parse video file to convert to ascii
+	+ Integrate video processing into main binary
+
+	+ Rename project to something like 'pixel2ascii'
 
 	+ Implement Edge detections to improve contrast
 
@@ -26,9 +37,16 @@ COMPILE
 	Simply run `make`.
 	Run `./bin/img2ascii <image_file>.png`
 
+	There is currently also an experimental feature that allows you to 
+	convert and view video (tested using .mp4 only) in the terminal as ascii
+	art.
+
 DEPENDENCIES
-	`stb_image` is a simple image processing library.
+	`stb_image` - is a simple image processing library.
+	`ffmpeg`    - is a multimedia converter and much more. This project 
+		      relies on APIs provided by libav.
 
 REFERENCES
-	`pixcii` - https://github.com/ashish0kumar/pixcii/
-	`img2ascii` - https://github.com/JosefVesely/img2ascii/
+	`pixcii`                - https://github.com/ashish0kumar/pixcii/
+	`img2ascii`             - https://github.com/JosefVesely/img2ascii/
+	`ffmpeg-libav-tutorial` - https://github.com/leandromoreira/ffmpeg-libav-tutorial/
