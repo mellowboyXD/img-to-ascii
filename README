@@ -13,6 +13,8 @@ PLAN
 
 	+ Parse video file to convert to ascii
 
+	+ Implement Edge detections to improve contrast
+
 	x Divide into blocks
 		- Scrapped this idea. Tried to calculate the average brightness 
 		  per block but ended up just loosing too much info about each 
