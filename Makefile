@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-I./include/ $(shell pkg-config --cflags libavcodec libavformat libavutil) -Wall -Wextra -g
+CFLAGS=-I./include/ $(shell pkg-config --cflags libavcodec) -Wall -Wextra -g
 CLIBS=-lm $(shell pkg-config --libs libavcodec libavformat libavutil)
 
 all: build
