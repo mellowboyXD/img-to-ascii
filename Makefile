@@ -4,8 +4,13 @@ CLIBS=-lm
 
 all: build
 
-build: src/*.c include/stb_image.h include/stb_image_resize.h
-	$(CC) $(CFLAGS) $(CLIBS) -o bin/img2ascii src/main.c src/ascii.c src/image.c
+build: src/*.c include/stb_image.h include/stb_image_resize.h bin
+	$(CC) $(CFLAGS) -o bin/img2ascii src/main.c src/ascii.c src/image.c $(CLIBS)
 
-clean: bin/
+bin:
+	mkdir bin
+
+.PHONY: all clean
+
+clean: bin
 	rm bin/*
