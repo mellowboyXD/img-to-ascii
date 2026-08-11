@@ -1,3 +1,6 @@
+<img width="733" height="462" alt="image" src="https://github.com/user-attachments/assets/81221577-96db-4414-a3da-a61ec96311f9" />
+
+
 PLAN
 	* Convert to grayscale
 	* Calculate brightness
